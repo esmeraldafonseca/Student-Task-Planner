@@ -134,13 +134,13 @@ class InterfaceGrafica:
             return
             
         for t in self.gestor.tarefas:
-            row = CTkFrame(scroll, fg_color="#F8FAFC", height=50, corner_radius=5)
+            row = CTkFrame(scroll, fg_color="#F8FAFC", height=50,corner_radius=5)
             row.pack(fill="x", pady=4, padx=5)
             
             txt_info = f"ID: {t.id} | {t.titulo} | Disc: {t.disciplina} | Prio: {t.prioridade} | Prazo: {t.prazo} | Estado: {t.estado}"
             cor_txt = "#0F172A" if t.estado == "Pendente" else "#94A3B8"
             
-            CTkLabel(row, text=txt_info, text_color=cor_txt, font=("Arial", 13)).pack(side="left", padx=15)
+            CTkLabel(row, text=txt_info, text_color=cor_txt, height=50, font=("Arial", 18)).pack(side="left", padx=15)
 
     # --- 3. ECRÃ: EDITAR TAREFA ---
     def ecra_editar(self):
@@ -156,7 +156,7 @@ class InterfaceGrafica:
             row = CTkFrame(scroll, fg_color="#F8FAFC", height=50, corner_radius=5)
             row.pack(fill="x", pady=4, padx=5)
             
-            CTkLabel(row, text=f"ID: {t.id} - {t.titulo} ({t.disciplina})", font=("Arial", 13, "bold")).pack(side="left", padx=15)
+            CTkLabel(row, text=f"ID: {t.id} - {t.titulo} ({t.disciplina})",height=50, font=("Arial", 18, "bold")).pack(side="left", padx=15)
             
             # Ao clicar, abre o formulário idêntico preenchido com dados antigos
             btn_edit = CTkButton(row, text="✏️ Editar", width=80, fg_color="#F59E0B", hover_color="#D97706", command=lambda obj=t: self.formulario_edicao(obj))
@@ -232,10 +232,13 @@ class InterfaceGrafica:
         for t in self.gestor.tarefas:
             row = CTkFrame(scroll, fg_color="#F8FAFC", height=45, corner_radius=5)
             row.pack(fill="x", pady=3, padx=5)
+
+            btn_edit = CTkButton(row, text="🗑️", width=80, fg_color="#DC2626", hover_color="#D90606", command=lambda id_tarefa=t.id: self._apagar_tarefa_individual(id_tarefa))
+            btn_edit.pack(side="right", padx=15)
             
             # Checkbox acoplada para identificar se está selecionada
             var_check = BooleanVar()
-            chk = CTkCheckBox(row, text=f"ID: {t.id} | {t.titulo} ({t.disciplina})", variable=var_check, font=("Arial", 13))
+            chk = CTkCheckBox(row, text=f"ID: {t.id} | {t.titulo} ({t.disciplina})", variable=var_check, font=("Arial", 18), height=50)
             chk.pack(side="left", padx=15, pady=10)
             
             self.checkboxes_remocao[t.id] = var_check
@@ -250,8 +253,13 @@ class InterfaceGrafica:
         btn_del_sel = CTkButton(rodape, text="Apagar Selecionados", fg_color="#F59E0B", hover_color="#D97706", command=self.apagar_selecionados)
         btn_del_sel.pack(side="left", padx=10, pady=20)
         
-        btn_del_todos = CTkButton(rodape, text="Apagar Todos", fg_color="#EF4444", hover_color="#DC2626", command=self.apagar_absolutamente_tudo)
+        btn_del_todos = CTkButton(rodape, text="Apagar Todos", fg_color="#EF4444", hover_color="#DC2626", command=lambda id_tarefa=t.id: self._apagar_tarefa_individual(id_tarefa))
         btn_del_todos.pack(side="right", padx=20, pady=20)
+
+    def _apagar_tarefa_individual(self, id_tarefa):
+        if messagebox.askyesno("Confirmar", "Apagar esta tarefa?"):
+            self.gestor.remover_tarefa(id_tarefa)
+            self.ecra_remover()
 
     def selecionar_todos_remocao(self):
         for var in self.checkboxes_remocao.values():
@@ -311,13 +319,13 @@ class InterfaceGrafica:
             resultados = self.gestor.pesquisar_tarefas(termo)
             
             if not resultados:
-                CTkLabel(scroll_resultados, text="Nenhum resultado corresponde à busca.", font=("Arial", 14, "italic")).pack(pady=30)
+                CTkLabel(scroll_resultados, text="Nenhum resultado corresponde à busca.", font=("Arial", 22, "italic")).pack(pady=30)
                 return
                 
             for t in resultados:
                 row = CTkFrame(scroll_resultados, fg_color="#F8FAFC", height=45)
                 row.pack(fill="x", pady=3)
-                CTkLabel(row, text=f"🔍 ID: {t.id} | {t.titulo} | {t.disciplina} | Prazo: {t.prazo} [{t.estado}]", font=("Arial", 13)).pack(side="left", padx=15)
+                CTkLabel(row, text=f"🔍 ID: {t.id} | {t.titulo} | {t.disciplina} | Prazo: {t.prazo} [{t.estado}]", height=50, font=("Arial", 18)).pack(side="left", padx=15)
 
         # Atualização em tempo real acoplada ao evento de soltar a tecla (KeyRelease)
         ent_busca.bind("<KeyRelease>", lambda e: realizar_busca())
