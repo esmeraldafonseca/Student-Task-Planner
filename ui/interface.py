@@ -98,33 +98,45 @@ class InterfaceGrafica:
         
         CTkLabel(self.main_frame, text="Nova Tarefa Académica", font=("Arial", 26, "bold"), text_color="#1E293B").pack(pady=10)
         
-        form = CTkFrame(self.main_frame, fg_color="white", corner_radius=15, width=500, height=500)
+        form = CTkFrame(self.main_frame, fg_color="white", corner_radius=15)
         form.pack(pady=20, padx=40, fill="both", expand=True)
-        
-        # Inputs
-        CTkLabel(form, text="Título da Tarefa:", font=("Arial", 14, "bold")).pack(anchor="w", padx=50, pady=(30, 5))
-        ent_titulo = CTkEntry(form, width=500, height=35)
-        ent_titulo.pack(padx=50)
-        
-        CTkLabel(form, text="Disciplina:", font=("Arial", 14, "bold")).pack(anchor="w", padx=50, pady=(15, 5))
-        ent_disc = CTkEntry(form, width=500, height=35)
-        ent_disc.pack(padx=50)
-        
-        CTkLabel(form, text="Prioridade:", font=("Arial", 14, "bold")).pack(anchor="w", padx=50, pady=(15, 5))
-        combo_prio = CTkComboBox(form, values=["Baixa", "Média", "Alta"], width=500, height=35, state="readonly")
+
+        # Coluna 0 = labels (largura fixa) | Coluna 1 = inputs (expande)
+        form.grid_columnconfigure(0, weight=0, minsize=220)
+        form.grid_columnconfigure(1, weight=1)
+
+        # --- Linha 0: Título ---
+        CTkLabel(form, text="Título da Tarefa:", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, sticky="w", padx=(50, 10), pady=(30, 10))
+        ent_titulo = CTkEntry(form, height=35)
+        ent_titulo.grid(row=0, column=1, sticky="ew", padx=(0, 50), pady=(30, 10))
+
+        # --- Linha 1: Disciplina ---
+        CTkLabel(form, text="Disciplina:", font=("Arial", 14, "bold")).grid(
+            row=1, column=0, sticky="w", padx=(50, 10), pady=10)
+        ent_disc = CTkEntry(form, height=35)
+        ent_disc.grid(row=1, column=1, sticky="ew", padx=(0, 50), pady=10)
+
+        # --- Linha 2: Prioridade ---
+        CTkLabel(form, text="Prioridade:", font=("Arial", 14, "bold")).grid(
+            row=2, column=0, sticky="w", padx=(50, 10), pady=10)
+        combo_prio = CTkComboBox(form, values=["Baixa", "Média", "Alta"], height=35, state="readonly")
         combo_prio.set("Média")
-        combo_prio.pack(padx=50)
-        
-        CTkLabel(form, text="Prazo Limite (DD/MM/AAAA):", font=("Arial", 14, "bold")).pack(anchor="w", padx=50, pady=(15, 5))
-        
+        combo_prio.grid(row=2, column=1, sticky="ew", padx=(0, 50), pady=10)
+
+        # --- Linha 3: Prazo Limite (entry + botão calendário na mesma sub-grid) ---
+        CTkLabel(form, text="Prazo Limite (DD/MM/AAAA):", font=("Arial", 14, "bold")).grid(
+            row=3, column=0, sticky="w", padx=(50, 10), pady=10)
+
         frame_prazo = CTkFrame(form, fg_color="transparent")
-        frame_prazo.pack(padx=50, fill="x")
-        
-        ent_prazo = CTkEntry(frame_prazo, width=450, height=35, placeholder_text="Ex: 30/06/2026")
-        ent_prazo.pack(side="left", padx=(0, 10))
-        
+        frame_prazo.grid(row=3, column=1, sticky="ew", padx=(0, 50), pady=10)
+        frame_prazo.grid_columnconfigure(0, weight=1)
+
+        ent_prazo = CTkEntry(frame_prazo, height=35, placeholder_text="Ex: 30/06/2026")
+        ent_prazo.grid(row=0, column=0, sticky="ew", padx=(0, 10))
+
         btn_calendar = CTkButton(frame_prazo, text="📅", width=40, height=35, command=lambda: self.calendario(ent_prazo))
-        btn_calendar.pack(side="left")
+        btn_calendar.grid(row=0, column=1)
 
         def salvar():
             titulo = ent_titulo.get().strip()
@@ -203,39 +215,53 @@ class InterfaceGrafica:
         
         form = CTkFrame(self.main_frame, fg_color="white", corner_radius=15)
         form.pack(pady=20, padx=40, fill="both", expand=True)
-        
-        # Inputs populados
-        CTkLabel(form, text="Título da Tarefa:").pack(anchor="w", padx=50, pady=(20, 5))
-        ent_titulo = CTkEntry(form, width=500)
+
+        # Coluna 0 = labels (largura fixa) | Coluna 1 = inputs (expande)
+        form.grid_columnconfigure(0, weight=0, minsize=220)
+        form.grid_columnconfigure(1, weight=1)
+
+        # --- Linha 0: Título ---
+        CTkLabel(form, text="Título da Tarefa:", font=("Arial", 14, "bold")).grid(
+            row=0, column=0, sticky="w", padx=(50, 10), pady=(30, 10))
+        ent_titulo = CTkEntry(form, height=35)
         ent_titulo.insert(0, tarefa_alvo.titulo)
-        ent_titulo.pack(padx=50)
-        
-        CTkLabel(form, text="Disciplina:").pack(anchor="w", padx=50, pady=(15, 5))
-        ent_disc = CTkEntry(form, width=500)
+        ent_titulo.grid(row=0, column=1, sticky="ew", padx=(0, 50), pady=(30, 10))
+
+        # --- Linha 1: Disciplina ---
+        CTkLabel(form, text="Disciplina:", font=("Arial", 14, "bold")).grid(
+            row=1, column=0, sticky="w", padx=(50, 10), pady=10)
+        ent_disc = CTkEntry(form, height=35)
         ent_disc.insert(0, tarefa_alvo.disciplina)
-        ent_disc.pack(padx=50)
-        
-        CTkLabel(form, text="Prioridade:").pack(anchor="w", padx=50, pady=(15, 5))
-        combo_prio = CTkComboBox(form, values=["Baixa", "Média", "Alta"], width=500, state="readonly")
+        ent_disc.grid(row=1, column=1, sticky="ew", padx=(0, 50), pady=10)
+
+        # --- Linha 2: Prioridade ---
+        CTkLabel(form, text="Prioridade:", font=("Arial", 14, "bold")).grid(
+            row=2, column=0, sticky="w", padx=(50, 10), pady=10)
+        combo_prio = CTkComboBox(form, values=["Baixa", "Média", "Alta"], height=35, state="readonly")
         combo_prio.set(tarefa_alvo.prioridade)
-        combo_prio.pack(padx=50)
-        
-        CTkLabel(form, text="Prazo Limite:").pack(anchor="w", padx=50, pady=(15, 5))
-        
+        combo_prio.grid(row=2, column=1, sticky="ew", padx=(0, 50), pady=10)
+
+        # --- Linha 3: Prazo Limite (entry + botão calendário na mesma sub-grid) ---
+        CTkLabel(form, text="Prazo Limite:", font=("Arial", 14, "bold")).grid(
+            row=3, column=0, sticky="w", padx=(50, 10), pady=10)
+
         frame_prazo = CTkFrame(form, fg_color="transparent")
-        frame_prazo.pack(padx=50, fill="x")
-        
-        ent_prazo = CTkEntry(frame_prazo, width=450)
+        frame_prazo.grid(row=3, column=1, sticky="ew", padx=(0, 50), pady=10)
+        frame_prazo.grid_columnconfigure(0, weight=1)
+
+        ent_prazo = CTkEntry(frame_prazo, height=35)
         ent_prazo.insert(0, tarefa_alvo.prazo)
-        ent_prazo.pack(side="left", padx=(0, 10))
-        
-        btn_calendar = CTkButton(frame_prazo, text="📅", width=40, command=lambda: self.calendario(ent_prazo))
-        btn_calendar.pack(side="left")
-        
-        CTkLabel(form, text="Estado da Tarefa:").pack(anchor="w", padx=50, pady=(15, 5))
-        combo_estado = CTkComboBox(form, values=["Pendente", "Concluída"], width=500, state="readonly")
+        ent_prazo.grid(row=0, column=0, sticky="ew", padx=(0, 10))
+
+        btn_calendar = CTkButton(frame_prazo, text="📅", width=40, height=35, command=lambda: self.calendario(ent_prazo))
+        btn_calendar.grid(row=0, column=1)
+
+        # --- Linha 4: Estado da Tarefa ---
+        CTkLabel(form, text="Estado da Tarefa:", font=("Arial", 14, "bold")).grid(
+            row=4, column=0, sticky="w", padx=(50, 10), pady=(10, 30))
+        combo_estado = CTkComboBox(form, values=["Pendente", "Concluída"], height=35, state="readonly")
         combo_estado.set(tarefa_alvo.estado)
-        combo_estado.pack(padx=50)
+        combo_estado.grid(row=4, column=1, sticky="ew", padx=(0, 50), pady=(10, 30))
         
         def salvar_alteracoes():
             if not ent_titulo.get() or not ent_disc.get() or not ent_prazo.get():
@@ -251,7 +277,7 @@ class InterfaceGrafica:
             messagebox.showinfo("Sucesso", "Tarefa atualizada com sucesso!")
             self.ecra_editar()
 
-        btn_salvar = CTkButton(self.main_frame, text="Adicionar", fg_color="#22C55E", hover_color="#16A34A", font=("Arial", 16, "bold"), width=300, height=50, command=salvar_alteracoes)
+        btn_salvar = CTkButton(self.main_frame, text="Guardar Alterações", fg_color="#22C55E", hover_color="#16A34A", font=("Arial", 16, "bold"), width=300, height=50, command=salvar_alteracoes)
         btn_salvar.pack(pady=20)
 
     # --- 4. ECRÃ: REMOVER TAREFA (Com Rodapé Completo de Seleções) ---
@@ -290,7 +316,7 @@ class InterfaceGrafica:
         btn_del_sel = CTkButton(rodape, text="Apagar Selecionados", fg_color="#F59E0B", hover_color="#D97706", command=self.apagar_selecionados)
         btn_del_sel.pack(side="left", padx=10, pady=20)
         
-        btn_del_todos = CTkButton(rodape, text="Apagar Todos", fg_color="#EF4444", hover_color="#DC2626", command=lambda id_tarefa=t.id: self._apagar_tarefa_individual(id_tarefa))
+        btn_del_todos = CTkButton(rodape, text="Apagar Todos", fg_color="#EF4444", hover_color="#DC2626", command=self.apagar_absolutamente_tudo)
         btn_del_todos.pack(side="right", padx=20, pady=20)
 
     def _apagar_tarefa_individual(self, id_tarefa):
