@@ -72,6 +72,16 @@ StudentTaskPlanner/
 ├── ui/
 │   └── interface.py
 │
+├── screenchots/
+│   └── ecra_criar_tarefa.png
+│   └── ecra_editar_tarefa.png
+│   └── ecra_pesquisar.png
+│   └── ecra_remover.png
+│   └── ecra_visualizar.png
+│   └── formulario_de_edicao.png
+│   └── menu_principal.png
+│   └── splash_screen.png
+│
 ├── main.py
 ├── README.md
 └── .gitignore
@@ -100,6 +110,12 @@ Responsável pela lógica de negócio e manipulação dos dados.
 Responsável pela interface gráfica e interação com o utilizador.
 
 - `InterfaceGrafica`
+
+### Screnshot
+
+Responsável pela interface gráfica e interação com o utilizador.
+
+- `ICapturas de ecra do sistema em funcionamento`
 
 ---
 
@@ -135,16 +151,38 @@ venv\Scripts\activate
 ```bash
 pip install customtkinter pillow
 ```
+```bash
+pip install tkcalendar
+```
 
 ---
 
 ## ▶️ Executar a Aplicação
 
 ```bash
-python main.py
+python __main__.py
 ```
 
 ---
+
+## 🖼️ Imagens do projecto
+
+<img width="1033" height="946" alt="splash_screen" src="https://github.com/user-attachments/assets/d1ce90b5-c3eb-4461-9040-6629bcfb4814" />
+
+<img width="1033" height="946" alt="menu_inicial" src="https://github.com/user-attachments/assets/2ae08cce-f874-4b92-ba45-9a0b7b31238c" />
+
+<img width="1034" height="948" alt="ecra_criar_tarefa" src="https://github.com/user-attachments/assets/97aa2190-8f72-49fa-a0ab-1fb31651eba4" />
+
+<img width="1033" height="946" alt="ecra_visualizar" src="https://github.com/user-attachments/assets/ebc19cbc-4d2e-4abf-9c9f-d94f93b0da16" />
+
+<img width="1036" height="946" alt="ecra_editar_tarefa" src="https://github.com/user-attachments/assets/cd766d46-e367-4fac-b7df-f50f966e57e5" />
+
+<img width="1036" height="946" alt="formulario de edicao" src="https://github.com/user-attachments/assets/93d36f35-ad71-441c-9586-4500f16895cd" />
+
+<img width="1033" height="946" alt="ecra_pesquisar" src="https://github.com/user-attachments/assets/d4709671-15c8-4a78-978f-640d23f9c8f9" />
+
+<img width="1033" height="946" alt="ecra_remover" src="https://github.com/user-attachments/assets/514d7cf6-e4f9-4605-8272-9f0605f4854c" />
+
 
 ## 🎯 Objetivos de Aprendizagem
 
@@ -168,6 +206,6 @@ Projeto académico desenvolvido no âmbito da formação orientada pelo formador
 
 ---
 
-## 📄 Licença
+## 📄 Contribuições
 
-Este projeto foi desenvolvido para fins educativos e de aprendizagem.
+Contribuições são bem-vindas. Por favor faça um fork do repositorio e envie um pull request com as suas melhorias
