@@ -1,5 +1,6 @@
 from customtkinter import *
 from tkinter import messagebox
+from tkcalendar import *
 from datetime import datetime
 from services.gestor_tarefas import GestorTarefas
 
@@ -68,6 +69,28 @@ class InterfaceGrafica:
         btn = CTkButton(parent, text="⬅️ Voltar ao Menu", font=("Arial", 12, "bold"), fg_color="#64748B", hover_color="#475569", command=self.ir_para_menu_principal)
         btn.pack(anchor="w", padx=20, pady=20)
 
+    # --- Método auxiliar reutilizável: abre o popup do calendário ---
+    def calendario(self, entry):
+        popup = CTkToplevel(self.app)
+        popup.title("Selecionar data")
+        popup_x = self.app.winfo_rootx() + 300
+        popup_y = self.app.winfo_rooty() + 200
+        popup.geometry(f"+{popup_x}+{popup_y}")
+
+        current_year = datetime.now().year
+        current_month = datetime.now().month
+        current_day = datetime.now().day
+
+        cal = Calendar(popup, selectmode="day", year=current_year, month=current_month, day=current_day)
+        cal.pack(pady=10)
+
+        def confirmar():
+            entry.delete(0, "end")
+            entry.insert(0, cal.get_date())
+            popup.destroy()
+
+        CTkButton(popup, text="Selecionar", command=confirmar).pack(pady=10)
+
     #1. ECRÃ: CRIAR TAREFA
     def ecra_criar_tarefa(self):
         self.limpar_ecra_conteudo()
@@ -93,9 +116,16 @@ class InterfaceGrafica:
         combo_prio.pack(padx=50)
         
         CTkLabel(form, text="Prazo Limite (DD/MM/AAAA):", font=("Arial", 14, "bold")).pack(anchor="w", padx=50, pady=(15, 5))
-        ent_prazo = CTkEntry(form, width=500, height=35, placeholder_text="Ex: 30/06/2026")
-        ent_prazo.pack(padx=50)
         
+        frame_prazo = CTkFrame(form, fg_color="transparent")
+        frame_prazo.pack(padx=50, fill="x")
+        
+        ent_prazo = CTkEntry(frame_prazo, width=450, height=35, placeholder_text="Ex: 30/06/2026")
+        ent_prazo.pack(side="left", padx=(0, 10))
+        
+        btn_calendar = CTkButton(frame_prazo, text="📅", width=40, height=35, command=lambda: self.calendario(ent_prazo))
+        btn_calendar.pack(side="left")
+
         def salvar():
             titulo = ent_titulo.get().strip()
             disciplina = ent_disc.get().strip()
@@ -191,9 +221,16 @@ class InterfaceGrafica:
         combo_prio.pack(padx=50)
         
         CTkLabel(form, text="Prazo Limite:").pack(anchor="w", padx=50, pady=(15, 5))
-        ent_prazo = CTkEntry(form, width=500)
+        
+        frame_prazo = CTkFrame(form, fg_color="transparent")
+        frame_prazo.pack(padx=50, fill="x")
+        
+        ent_prazo = CTkEntry(frame_prazo, width=450)
         ent_prazo.insert(0, tarefa_alvo.prazo)
-        ent_prazo.pack(padx=50)
+        ent_prazo.pack(side="left", padx=(0, 10))
+        
+        btn_calendar = CTkButton(frame_prazo, text="📅", width=40, command=lambda: self.calendario(ent_prazo))
+        btn_calendar.pack(side="left")
         
         CTkLabel(form, text="Estado da Tarefa:").pack(anchor="w", padx=50, pady=(15, 5))
         combo_estado = CTkComboBox(form, values=["Pendente", "Concluída"], width=500, state="readonly")
@@ -233,8 +270,8 @@ class InterfaceGrafica:
             row = CTkFrame(scroll, fg_color="#F8FAFC", height=45, corner_radius=5)
             row.pack(fill="x", pady=3, padx=5)
 
-            btn_edit = CTkButton(row, text="🗑️", width=80, fg_color="#DC2626", hover_color="#D90606", command=lambda id_tarefa=t.id: self._apagar_tarefa_individual(id_tarefa))
-            btn_edit.pack(side="right", padx=15)
+            btn_remove = CTkButton(row, text="🗑️", width=80, fg_color="#DC2626", hover_color="#D90606", command=lambda id_tarefa=t.id: self._apagar_tarefa_individual(id_tarefa))
+            btn_remove.pack(side="right", padx=15)
             
             # Checkbox acoplada para identificar se está selecionada
             var_check = BooleanVar()
