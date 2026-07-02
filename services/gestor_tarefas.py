@@ -52,18 +52,14 @@ class GestorTarefas:
 
     def atualizar_tarefa(self, id_tarefa, titulo, disciplina, prioridade, prazo, estado):
         """Atualiza todos os dados de uma tarefa existente."""
-        for t in self.tarefas:
+        for indice, t in enumerate(self.tarefas):
             if t.id == id_tarefa:
-                t.titulo = titulo
-                t.disciplina = disciplina
-                t.prioridade = prioridade
-                t.prazo = prazo
-                t.estado = estado
-
+                tarefa_atualizada = Tarefa(id_tarefa, titulo, disciplina, prioridade, prazo, estado)
+                self.tarefas[indice] = tarefa_atualizada
                 self.guardar_dados()
-                
                 return True
         return False
+
 
     def remover_tarefa(self, id_tarefa):
         self.tarefas = [t for t in self.tarefas if t.id != id_tarefa]
