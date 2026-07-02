@@ -12,18 +12,29 @@ class GestorTarefas:
         os.makedirs(os.path.dirname(self.caminho_json), exist_ok=True)
         self.carregar_dados()
 
+
     def carregar_dados(self):
         if not os.path.exists(self.caminho_json):
             self.tarefas = []
             return
+
         try:
             with open(self.caminho_json, "r", encoding="utf-8") as f:
                 dados = json.load(f)
-                self.tarefas = [Tarefa.from_dict(t) for t in dados]
-                if self.tarefas:
-                    self.proximo_id = max(t.id for t in self.tarefas) + 1
-        except (json.JSONDecodeError, KeyError):
+        except (json.JSONDecodeError, OSError):
             self.tarefas = []
+            return
+
+        tarefas_validas = []
+        for item in dados:
+            try:
+                tarefas_validas.append(Tarefa.from_dict(item))
+            except (KeyError, ValueError) as e:
+                print(f"[Aviso] Registo ignorado por estar corrompido: {e}")
+
+        self.tarefas = tarefas_validas
+        if self.tarefas:
+            self.proximo_id = max(t.id for t in self.tarefas) + 1
 
     def guardar_dados(self):
         try:
