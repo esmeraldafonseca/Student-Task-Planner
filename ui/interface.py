@@ -81,7 +81,8 @@ class InterfaceGrafica:
         current_month = datetime.now().month
         current_day = datetime.now().day
 
-        cal = Calendar(popup, selectmode="day", year=current_year, month=current_month, day=current_day)
+        cal = Calendar(popup, selectmode="day", year=current_year, month=current_month, day=current_day,
+                       date_pattern="dd/mm/yyyy")
         cal.pack(pady=10)
 
         def confirmar():
