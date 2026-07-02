@@ -49,6 +49,18 @@ class Tarefa:
             raise ValueError("A disciplina não pode conter apenas números ou símbolos.")
         self._disciplina = valor
 
+    #validar estado
+    @property
+    def estado(self):
+        return self._estado
+
+    @estado.setter
+    def estado(self, valor):
+        if valor not in self.ESTADOS_VALIDOS:
+            raise ValueError(f"Estado inválido. Use um de: {', '.join(self.ESTADOS_VALIDOS)}.")
+        self._estado = valor
+
+
     #validar prazo via property
     @property
     def prazo(self):
