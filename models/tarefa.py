@@ -9,7 +9,7 @@ class Tarefa:
 
     PRIORIDADES_VALIDAS = ("Baixa", "Média", "Alta")
     ESTADOS_VALIDOS = ("Pendente", "Concluída")
-    
+
     
     def __init__(self, id_tarefa, titulo, disciplina, prioridade, prazo, estado="Pendente"):
         self.id = id_tarefa
@@ -18,6 +18,20 @@ class Tarefa:
         self.prioridade = prioridade  # Baixa, Média, Alta
         self.prazo = prazo            # Formato: DD/MM/AAAA
         self.estado = estado          # Pendente ou Concluída
+
+    @property
+    def titulo(self):
+        return self._titulo
+
+    @titulo.setter
+    def titulo(self, valor):
+        valor = (valor or "").strip()
+        if len(valor) < 3:
+            raise ValueError("O título deve ter pelo menos 3 caracteres.")
+        if not any(c.isalpha() for c in valor):
+            raise ValueError("O título não pode conter apenas números ou símbolos.")
+        self._titulo = valor
+
 
     def to_dict(self):
         """Converte o objeto Tarefa para dicionário (compatível com JSON)."""
