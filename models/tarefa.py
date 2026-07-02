@@ -1,4 +1,16 @@
 class Tarefa:
+    """
+    Representa uma tarefa académica.
+
+    Encapsulamento: os atributos são geridos por properties com validação,
+    garantindo que uma Tarefa nunca existe num estado inválido — seja
+    criada pela UI, carregada do JSON, ou atualizada mais tarde.
+    """
+
+    PRIORIDADES_VALIDAS = ("Baixa", "Média", "Alta")
+    ESTADOS_VALIDOS = ("Pendente", "Concluída")
+    
+    
     def __init__(self, id_tarefa, titulo, disciplina, prioridade, prazo, estado="Pendente"):
         self.id = id_tarefa
         self.titulo = titulo
