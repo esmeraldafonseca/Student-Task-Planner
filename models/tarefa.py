@@ -1,3 +1,4 @@
+from datatime import datatime
 class Tarefa:
     """
     Representa uma tarefa académica.
@@ -47,6 +48,21 @@ class Tarefa:
         if not any(c.isalpha() for c in valor):
             raise ValueError("A disciplina não pode conter apenas números ou símbolos.")
         self._disciplina = valor
+
+    #validar prazo via property
+    @property
+    def prazo(self):
+        return self._prazo
+
+    @prazo.setter
+    def prazo(self, valor):
+        valor = (valor or "").strip()
+        try:
+            datetime.strptime(valor, "%d/%m/%Y")
+        except ValueError:
+            raise ValueError("Data inválida. Use o formato DD/MM/AAAA (ex: 30/06/2026).")
+        self._prazo = valor
+
 
 
 
