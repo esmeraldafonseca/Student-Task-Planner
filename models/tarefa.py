@@ -1,4 +1,4 @@
-from datatime import datatime
+from datetime import datetime
 class Tarefa:
     """
     Representa uma tarefa académica.
