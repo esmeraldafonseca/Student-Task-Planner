@@ -148,19 +148,19 @@ class InterfaceGrafica:
             if not titulo or not disciplina or not prazo:
                 messagebox.showerror("Erro", "Campos vazios! Preencha todo o formulário.")
                 return
+
             try:
-                datetime.strptime(prazo, "%d/%m/%Y")
-            except ValueError:
-                messagebox.showerror("Data Inválida", "Formato correto: DD/MM/AAAA")
+                self.gestor.adicionar_tarefa(titulo, disciplina, prioridade, prazo)
+            except ValueError as e:
+                messagebox.showerror("Dados Inválidos", str(e))
                 return
-                
-            self.gestor.adicionar_tarefa(titulo, disciplina, prioridade, prazo)
+
             messagebox.showinfo("Sucesso", "Tarefa adicionada!")
             self.ir_para_menu_principal()
 
-        # Botão verde adicionar no final da página
         btn_add = CTkButton(self.main_frame, text="Adicionar", fg_color="#22C55E", hover_color="#16A34A", font=("Arial", 16, "bold"), width=300, height=50, command=salvar)
         btn_add.pack(pady=30)
+
 
     # --- 2. ECRÃ: VISUALIZAR TAREFAS ---
     def ecra_visualizar(self):
