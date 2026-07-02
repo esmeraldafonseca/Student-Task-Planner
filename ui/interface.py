@@ -194,6 +194,10 @@ class InterfaceGrafica:
         
         scroll = CTkScrollableFrame(self.main_frame, fg_color="white", corner_radius=10)
         scroll.pack(fill="both", expand=True, padx=20, pady=20)
+
+        if not self.gestor.tarefas:
+            CTkLabel(scroll, text="Nenhuma tarefa registada.", font=("Arial", 16, "italic")).pack(pady=50)
+            return
         
         for t in self.gestor.tarefas:
             row = CTkFrame(scroll, fg_color="#F8FAFC", height=50, corner_radius=5)
@@ -298,6 +302,10 @@ class InterfaceGrafica:
         
         self.checkboxes_remocao = {}
         
+        if not self.gestor.tarefas:
+            CTkLabel(scroll, text="Nenhuma tarefa registada.", font=("Arial", 16, "italic")).pack(pady=50)
+            return
+
         for t in self.gestor.tarefas:
             row = CTkFrame(scroll, fg_color="#F8FAFC", height=45, corner_radius=5)
             row.pack(fill="x", pady=3, padx=5)
