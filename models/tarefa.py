@@ -19,6 +19,8 @@ class Tarefa:
         self.prazo = prazo            # Formato: DD/MM/AAAA
         self.estado = estado          # Pendente ou Concluída
 
+
+    #validar titulo via property
     @property
     def titulo(self):
         return self._titulo
@@ -31,6 +33,21 @@ class Tarefa:
         if not any(c.isalpha() for c in valor):
             raise ValueError("O título não pode conter apenas números ou símbolos.")
         self._titulo = valor
+
+    #validar disciplina via property
+    @property
+    def disciplina(self):
+        return self._disciplina
+
+    @disciplina.setter
+    def disciplina(self, valor):
+        valor = (valor or "").strip()
+        if len(valor) < 2:
+            raise ValueError("A disciplina deve ter pelo menos 2 caracteres.")
+        if not any(c.isalpha() for c in valor):
+            raise ValueError("A disciplina não pode conter apenas números ou símbolos.")
+        self._disciplina = valor
+
 
 
     def to_dict(self):
