@@ -49,6 +49,18 @@ class Tarefa:
             raise ValueError("A disciplina não pode conter apenas números ou símbolos.")
         self._disciplina = valor
 
+    #validar prioridades
+    @property
+    def prioridade(self):
+        return self._prioridade
+
+    @prioridade.setter
+    def prioridade(self, valor):
+        if valor not in self.PRIORIDADES_VALIDAS:
+            raise ValueError(f"Prioridade inválida. Use uma de: {', '.join(self.PRIORIDADES_VALIDAS)}.")
+        self._prioridade = valor
+
+
     #validar estado
     @property
     def estado(self):
