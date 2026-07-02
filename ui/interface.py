@@ -265,16 +265,21 @@ class InterfaceGrafica:
         combo_estado.grid(row=4, column=1, sticky="ew", padx=(0, 50), pady=(10, 30))
         
         def salvar_alteracoes():
-            if not ent_titulo.get() or not ent_disc.get() or not ent_prazo.get():
+            titulo = ent_titulo.get().strip()
+            disciplina = ent_disc.get().strip()
+            prazo = ent_prazo.get().strip()
+
+            if not titulo or not disciplina or not prazo:
                 messagebox.showerror("Erro", "Preencha todos os campos.")
                 return
-            
-            self.gestor.atualizar_tarefa(tarefa_alvo.id, 
-                                         ent_titulo.get(), 
-                                         ent_disc.get(), 
-                                         combo_prio.get(), 
-                                         ent_prazo.get(), 
-                                         combo_estado.get())
+
+            try:
+                self.gestor.atualizar_tarefa(tarefa_alvo.id, titulo, disciplina,
+                                             combo_prio.get(), prazo, combo_estado.get())
+            except ValueError as e:
+                messagebox.showerror("Dados Inválidos", str(e))
+                return
+
             messagebox.showinfo("Sucesso", "Tarefa atualizada com sucesso!")
             self.ecra_editar()
 
